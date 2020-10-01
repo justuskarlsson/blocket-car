@@ -1,0 +1,96 @@
+
+<style>
+
+    #main {
+        display: flex;
+        flex-direction: row;
+        margin-top: 12%;
+        justify-content: center;
+
+    }
+
+    .bottom {
+        display: flex;
+        flex-direction: row;
+
+    }
+    .top {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    } 
+    .heading{
+        font-size: 20px;
+        font-weight: 500;
+    }
+
+</style>
+<div id="main">
+    <form id="register-form" enctype='multipart/form-data'>
+        <div class=" top">
+            <span class="heading">Registrera:</span>
+            <span>
+                eller <a  href="/login">logga in</a>
+                
+            </span>
+        </div>
+        <div class="form-group">
+            <label for="firstName">Förnamn</label>
+            <input required type="text" class="form-control" name="firstName" id="firstName" aria-describedby="emailHelp" placeholder="Förnamn">
+        </div>
+        <div class="form-group">
+            <label for="lastName">Efternamn</label>
+            <input required type="text" class="form-control" name="lastName" id="lastName" aria-describedby="emailHelp" placeholder="Efternamn">
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input required type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Email">
+        </div>
+        <div class="form-group" >
+            <label for="company">Företag</label>
+            <input required type="text" class="form-control" name="company" id="company" aria-describedby="emailHelp" placeholder="Företag">
+        </div>
+        <div class="form-group">
+            <label for="password1">Lösenord</label>
+            <input required type="password" class="form-control" id="password1" name="password1" placeholder="Lösenord">
+        </div>
+        <div class="form-group">
+            <label for="password2">Repetera Lösenord</label>
+            <input required type="password" class="form-control" id="password2" name="password2" placeholder="Repetera Lösenord">
+        </div>
+        <div class="bottom" >
+            <button type="submit" class="btn btn-primary">Registrera</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    const form = document.getElementById("register-form");
+    form.onsubmit = async (e)=> {
+        e.preventDefault();  
+
+        const {
+            firstName,
+            lastName, 
+            email,
+            company,
+            password1,
+            password2
+        } = e.target;
+        const formData = new FormData();
+        formData.append('firstName', firstName.value);
+        formData.append('lastName', lastName.value);
+        formData.append('email', email.value);
+        formData.append('company', company.value);
+        formData.append('password1', password1.value);
+        formData.append('password2', password2.value);
+        let res = await fetch("/api/register", {
+            
+            method: "POST",
+            body: formData,
+        })
+        res = await res.json();
+        console.log(res);
+    }
+</script>

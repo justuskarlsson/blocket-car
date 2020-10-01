@@ -1,0 +1,90 @@
+
+<style>
+
+    #main {
+        display: flex;
+        flex-direction: row;
+        margin-top: 5%;
+        justify-content: center;
+
+    }
+
+    .bottom {
+        display: flex;
+        flex-direction: row;
+
+    }
+    .top {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    } 
+    .heading{
+        font-size: 20px;
+        font-weight: 500;
+    }
+
+</style>
+<div id="main">
+    <form id="article-form" enctype='multipart/form-data'>
+        <div class=" top">
+            <span class="heading">Ny artikel:</span>
+        </div>
+        <div class="form-group">
+            <label for="title">Titel</label>
+            <input required type="text" class="form-control" name="title" id="title" placeholder="Titel">
+        </div>
+        <div class="form-group">
+            <label for="price">Pris</label>
+            <input required type="numeric" class="form-control" name="price" id="price" placeholder="20000">
+        </div>
+        <div class="form-group">
+            <label for="images">Bilder</label>
+            <input required multiple accept="image/*" 
+                   type="file" class="form-control-file" name="images" id="images"
+                   >
+        </div>
+        <div class="form-group">
+            <img width="128" height ="128" src="/empty_image.png" />
+            <img width="128" height ="128" src="/articles/6.jpeg" />
+        </div>
+        <div class="form-group">
+            <label for="description">Beskrivning</label>
+            <textarea  rows="3" type="text" class="form-control" name="description" id="description" placeholder="Skriv en beskrivning" required></textarea>
+            </textarea>
+        </div>
+        <div class="bottom" >
+            <button type="submit" class="btn btn-primary">Skapa artikel</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    const form = document.getElementById("article-form");
+    form.onsubmit = async (e)=> {
+        e.preventDefault();  
+        const {
+            images,
+            title,
+            description,
+            price,
+        } = e.target;
+
+        const formData = new FormData();
+
+        for (let file of images.files) {
+            formData.append("images[]", file);
+        }
+        formData.append("title", title.value);
+        formData.append("description", description.value);
+        formData.append("price", price.value);
+
+
+        let res = await fetch("/api/article/add", {
+            method: "POST",
+            body: formData,
+        })
+        console.log(e.target.images.files);
+    }
+</script>
