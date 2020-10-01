@@ -19,5 +19,4 @@ DB_NAME=<database-name>
 
 Then simply run npm start.
 
-***Right now this won't make the backend work as expected, as the database schemas where made
-in mysql workbench and are not provided in the repo***
+***I have not tested this other than on my own computer, so something in the setup might not work for you***
